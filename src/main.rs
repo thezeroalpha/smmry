@@ -1,6 +1,6 @@
 mod smmry;
-use ureq::{self,Error};
-use clap::{ArgGroup,Parser};
+use clap::{ArgGroup, Parser};
+use ureq::{self, Error};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -23,28 +23,25 @@ struct Cli {
     html: bool,
 }
 
-
 fn main() {
     let cli = Cli::parse();
-    let outfmt =
-        if cli.markdown {
-            smmry::OutputFmt::Markdown
-        } else if cli.text {
-            smmry::OutputFmt::Text
-        } else if cli.html {
-            smmry::OutputFmt::Html
-        } else {
-            unreachable!("Output format not set");
-        };
+    let outfmt = if cli.markdown {
+        smmry::OutputFmt::Markdown
+    } else if cli.text {
+        smmry::OutputFmt::Text
+    } else if cli.html {
+        smmry::OutputFmt::Html
+    } else {
+        unreachable!("Output format not set");
+    };
     let data = smmry::summarize(&cli.url);
     match data {
         Ok(resp) => smmry::show_summary(resp, outfmt),
         Err(Error::Status(code, response)) => {
             println!("{} {}", code, response.status_text())
-        },
+        }
         Err(e) => {
             println!("Error: {:?}", e)
         }
     };
-
 }
