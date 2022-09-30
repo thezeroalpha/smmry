@@ -1,0 +1,13 @@
+[package]
+name = "smmry"
+version = "0.1.0"
+edition = "2021"
+description = "Summarize an article using https://smmry.com and output HTML"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ureq = { version = "*", features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+clap = { version = "4.0.4", features = ["derive"] }
+indoc = "1.0.7"
